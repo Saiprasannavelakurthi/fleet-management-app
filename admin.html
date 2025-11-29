@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Dashboard</title>
+    <style>
+        #Container{
+            border: 1px solid black;
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .card{
+            border: 1px solid rgb(105, 31, 31);
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        #formDiv{
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <h2>Fleet Dashboard</h2>
@@ -22,24 +40,27 @@
         <option> Unavailable</option>
     </select>
     <button id="clearFilter">Clear Filter</button>
+    <hr>
 
     <div id="Container">
-        <h3>Add Fleet</h3>
-        <input type="text" id="reg" placeholder="Reg No"/><br><br>
-         <select  id="cat">
-            <option value="all">All Vehicles</option>
-            <option value="trucks">Trucks</option>
-            <option value="vans">Vans</option>
-            <option value="cars">Cars</option>
-            <option value="bus">Bus</option>
-        </select>
-        <input type="text" id="driver" placeholder="Driver Name"/><br><br>
-        <select id="Avail">
-            <option> All</option>
-            <option> Available</option>
-            <option> Unavailable</option>
-        </select><br><br>
-        <button id="addBtn">Add Fleet</button>
+        <div id="formDiv">
+            <h3>Add Fleet</h3>
+            <input type="text" id="reg" placeholder="Reg No"/><br><br>
+            <select  id="cat">
+                <option value="all">All Vehicles</option>
+                <option value="trucks">Trucks</option>
+                <option value="vans">Vans</option>
+                <option value="cars">Cars</option>
+                <option value="bus">Bus</option>
+            </select>
+            <input type="text" id="driver" placeholder="Driver Name"/><br><br>
+            <select id="Avail">
+                <option> All</option>
+                <option> Available</option>
+                <option> Unavailable</option>
+            </select><br><br>
+            <button id="addBtn">Add Fleet</button>
+        </div>
         <div id="cards"></div>
     </div>
 
@@ -56,11 +77,11 @@
                 alert('Required fields cannot be empty');
                 return;
             }
-            let obj = {reg,cat,driver,avail};
+            let obj = {reg, cat, driver, avail};
             data.push(obj);
 
             document.getElementById('reg').value = '';
-            document.getElementById('cat').value = '';
+            document.getElementById('driver').value = '';
 
             render(data);
         });
@@ -71,7 +92,7 @@
                 let card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
-                    <img src="vehicle.jpg" alt="Vehicle-Image" width="200px">
+                    <img src="https://coding-platform.s3.amazonaws.com/dev/lms/tickets/5e80fcb6-3f8e-480c-945b-30a5359eb40e/JNmYjkVr3WOjsrbu.png" alt="Vehicle Image"/><br>
                     <h4>Reg No: ${item.reg}</h4>
                     <p>Category: ${item.cat}</p>
                     <p>Driver: ${item.driver}</p>
@@ -102,6 +123,25 @@
                 data.splice(i,1);
                 render(data);
             }
+        }
+        function editFleet(i){
+            let newReg = prompt("Enter new registration number:", data[i].reg);
+            let newCat = prompt("Enter new category:", data[i].cat);
+            let newDriver = prompt("Enter new driver name:", data[i].driver);
+            let newAvail = prompt("Enter new availability (Available/Unavailable):", data[i].avail);
+
+            if (!newReg || !newDriver){
+                alert('Required fields cannot be empty');
+                return;
+            }
+
+            data[i] = {
+                reg: newReg,
+                cat: newCat,
+                driver: newDriver,
+                avail: newAvail
+            };
+            render(data);
         }
 
         document.getElementById("filterCategory").addEventListener("change", applyFilters);
