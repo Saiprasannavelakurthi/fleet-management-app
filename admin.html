@@ -7,6 +7,7 @@
 </head>
 <body>
     <h2>Fleet Dashboard</h2>
+    <!-- navbar -->
     <select  id="filterCategory">
         <option value="all">All Vehicles</option>
         <option value="trucks">Trucks</option>
@@ -15,6 +16,37 @@
         <option value="bus">Bus</option>
 
     </select>
+    <select id="filterAvailability">
+        <option> All</option>
+        <option> Available</option>
+        <option> Unavailable</option>
+    </select>
+    <button id="clearFilter">Clear Filter</button>
+
+    <div id="Container">
+        <h3>Add Fleet</h3>
+        <input type="text" id="reg" placeholder="Reg No"/><br><br>
+         <select  id="cat">
+            <option value="all">All Vehicles</option>
+            <option value="trucks">Trucks</option>
+            <option value="vans">Vans</option>
+            <option value="cars">Cars</option>
+            <option value="bus">Bus</option>
+        </select>
+        <input type="text" id="driver" placeholder="Driver Name"/><br><br>
+        <select id="Avail">
+            <option> All</option>
+            <option> Available</option>
+            <option> Unavailable</option>
+        </select><br><br>
+        <button id="addBtn">Add Fleet</button>
+        <div id="cards"></div>
+    </div>
+
+    <script>
+        
+    </script>
+    
     
 </body>
 </html>
