@@ -44,7 +44,83 @@
     </div>
 
     <script>
-        
+        let data = [];
+
+        document.getElementById('addBtn').addEventListener('click', function() {
+            const reg = document.getElementById('reg').value;
+            const cat = document.getElementById('cat').value;
+            const driver = document.getElementById('driver').value;
+            const avail = document.getElementById('avail').value;
+
+            if (!reg || !driver) {
+                alert('Required fields cannot be empty');
+                return;
+            }
+            let obj = {reg,cat,driver,avail};
+            data.push(obj);
+
+            document.getElementById('reg').value = '';
+            document.getElementById('cat').value = '';
+
+            render(data);
+        });
+
+        function render(arr){
+            document.getElementById('cards').innerHTML = '';
+            arr.forEach((item,index) => {
+                let card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="vehicle.jpg" alt="Vehicle-Image" width="200px">
+                    <h4>Reg No: ${item.reg}</h4>
+                    <p>Category: ${item.cat}</p>
+                    <p>Driver: ${item.driver}</p>
+                    <p>Availability: ${item.avail}</p>
+                    <button id="updateDriver${index}">Update Driver</button>
+                    <button id="changeAvail${index}">Change Availability</button>
+                    <button id="del${index}">Delete</button>
+                `;
+                document.getElementById('cards').appendChild(card);
+            });
+        }
+        function updateDriver(i){
+            let newDriver = prompt("Enter new driver name:");
+            if(newDriver && newDriver.trim() !== ""){
+                data[i].driver = newDriver;
+                render(data);
+            }else{
+                alert("Driver name cannot be empty");
+            }
+        }
+        function changeAvail(i){
+            data[i].avail = data[i].avail === "Available" ? "Unavailable" : "Available";
+            render(data);
+        }
+        function del(i){
+            if(confirm("Are you sure you want to delete this entry?"))
+            {
+                data.splice(i,1);
+                render(data);
+            }
+        }
+
+        document.getElementById("filterCategory").addEventListener("change", applyFilters);
+        document.getElementById("filterAvailability").addEventListener("change", applyFilters);
+        document.getElementById("clearFilter").addEventListener("click", () => {
+            document.getElementById("filterCategory").value = "All";
+            document.getElementById("filterAvailability").value = "All";
+            render(data);
+        });
+        function applyFilter(){
+            let c = document.getElementById("filterCategory").value;
+            let a = document.getElementById("filterAvailability").value;
+
+            let filtered = data.filter(item => {
+                return (c === "All" || item.cat === c) && (a === "All" || item.avail === a);
+            });
+            render(filtered);
+        }
+
     </script>
     
     
